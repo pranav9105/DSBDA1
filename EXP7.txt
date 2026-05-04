@@ -1,0 +1,277 @@
+EXP 7
+
+pip install PyPDF2
+
+pip install python-docx
+
+import PyPDF2
+
+# open PDF in binary mode
+pdfFileObj = open("sample1.pdf", "rb")
+
+# create PDF reader object (NEW way)
+pdfReader = PyPDF2.PdfReader(pdfFileObj)
+
+# number of pages
+print(len(pdfReader.pages))
+
+# read first page
+page = pdfReader.pages[0]
+print(page.extract_text())
+
+
+
+
+
+
+# import docx NOT python-docx
+import docx
+
+# create an instance of a word document
+doc = docx.Document()
+
+# add a heading of level 0 (largest heading)
+doc.add_heading('Heading for the document', 0)
+
+# add a paragraph and store
+# the object in a variable
+doc_para = doc.add_paragraph('Your paragraph goes here, ')
+
+# add a run i.e, style like
+# bold, italic, underline, etc.
+doc_para.add_run('hey there, bold here').bold = True
+doc_para.add_run(', and ')
+doc_para.add_run('these words are italic').italic = True
+
+# add a page break to start a new page
+doc.add_page_break()
+
+# add a heading of level 2
+doc.add_heading('Heading level 2', 2)
+
+# pictures can also be added to our word document
+# width is optional
+doc.add_picture("index.jpg")
+
+# now save the document to a location
+doc.save('new_doc')
+
+
+
+
+
+pip install nltk
+
+
+import nltk
+nltk.download()
+nltk.download('punkt')
+
+
+import nltk
+nltk.download('punkt_tab')
+
+
+nltk.download('punkt')
+
+
+sentence_data = "The First sentence is about Python. The Second: about Django. You can"
+nltk_tokens = nltk.sent_tokenize(sentence_data)
+print(nltk_tokens)
+
+
+german_tokenizer = nltk.data.load('tokenizers/punkt/german.pickle')
+german_tokens=german_tokenizer.tokenize('Wie geht es Ihnen? Gut, danke.')
+print(german_tokens)
+
+
+word_data = "It originated from the idea that there are readers who prefer learning new concepts."
+nltk_tokens = nltk.word_tokenize(word_data)
+print(nltk_tokens)
+
+
+
+
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize, sent_tokenize
+#Dummy text
+txt = "He is a boy. "\
+ "She is a girl"
+word_tokens = word_tokenize(txt)
+print(word_tokens)
+
+
+
+
+import nltk
+from nltk.tokenize import word_tokenize
+text = word_tokenize("Hello welcome to the world of learning Categorizing and POS Tagging")
+print(text)
+
+
+
+import nltk
+nltk.download('stopwords')
+nltk.download('averaged_perceptron_tagger')
+
+
+
+from nltk.corpus import stopwords
+print(stopwords.words('english'))
+
+
+
+
+
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+# sample sentence
+example_sent = """This is a sample sentence,
+showing off the stop words filtration."""
+# stop words
+stop_words = set(stopwords.words('english'))
+# tokenization
+word_tokens = word_tokenize(example_sent)
+# remove stopwords
+filtered_sentence = [w for w in word_tokens if w.lower() not in stop_words]
+# output
+print("Tokenized:", word_tokens)
+print("Stop Words Removed:", filtered_sentence)
+
+
+
+
+
+
+from nltk.corpus import stopwords
+
+stop_words = set(stopwords.words('english'))
+
+# read file
+file1 = open("text.txt", "r")
+line = file1.read()
+file1.close()
+
+words = line.split()
+
+# open output file ONCE
+appendFile = open('filteredtext.txt', 'w')
+
+for r in words:
+    if r.lower() not in stop_words:
+        appendFile.write(r + " ")
+
+appendFile.close()
+
+print("Filtering complete!")
+
+
+
+
+
+import nltk
+from nltk.stem.porter import PorterStemmer
+from nltk.tokenize import word_tokenize
+
+porter_stemmer = PorterStemmer()
+
+word_data = "It vijaying meeting better vijayed vijays eats skills originated from the first word"
+
+# Tokenization
+nltk_tokens = word_tokenize(word_data)
+
+# Stemming
+for w in nltk_tokens:
+    print("Actual: %s Stem: %s" % (w, porter_stemmer.stem(w)))
+
+
+
+
+
+
+import nltk
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize
+
+nltk.download('wordnet')
+nltk.download('omw-1.4')
+nltk.download('punkt')
+
+wordnet_lemmatizer = WordNetLemmatizer()
+
+word_data = "It studies densely is better meeting studying vijaying vijayed vijays skills"
+
+nltk_tokens = word_tokenize(word_data)
+
+for w in nltk_tokens:
+    print("Actual: %s Lemma: %s" % (w, wordnet_lemmatizer.lemmatize(w)))
+
+
+
+
+
+import pandas as pd
+import sklearn as sk
+import math
+
+
+
+
+
+
+first_sentence = "Data Science is the best job of the 21st century"
+second_sentence = "Machine learning is the key for data science"
+#split so each word have their own string
+first_sentence = first_sentence.split(" ")
+second_sentence = second_sentence.split(" ")#join them to remove common duplicate words
+total= set(first_sentence).union(set(second_sentence))
+print(total)
+
+
+
+wordDictA = dict.fromkeys(total, 0)
+wordDictB = dict.fromkeys(total, 0)
+for word in first_sentence:
+ wordDictA[word]+=1
+
+for word in second_sentence:
+ wordDictB[word]+=1
+
+pd.DataFrame([wordDictA, wordDictB])
+
+
+
+
+
+
+import pandas as pd
+
+def computeTF(wordDict, doc):
+    tfDict = {}
+    corpusCount = len(doc)
+
+    for word, count in wordDict.items():
+        tfDict[word] = count / float(corpusCount)
+
+    return tfDict
+
+
+# Example documents (make sure these are WORD LISTS, not raw strings)
+first_sentence = ["this", "is", "a", "sample"]
+second_sentence = ["this", "is", "another", "example"]
+
+# Example word frequency dictionaries
+wordDictA = {"this": 1, "is": 1, "a": 1, "sample": 1}
+wordDictB = {"this": 1, "is": 1, "another": 1, "example": 1}
+
+# TF calculation
+tfFirst = computeTF(wordDictA, first_sentence)
+tfSecond = computeTF(wordDictB, second_sentence)
+
+# DataFrame output
+df = pd.DataFrame([tfFirst, tfSecond])
+print(df)
+
+
+

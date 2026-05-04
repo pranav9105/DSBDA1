@@ -1,0 +1,52 @@
+EXP2 # Creating a dataset mimicking "StudentsPerformance" with deliberate missing values and outliers
+
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+# Load dataset
+missing_values = ["n/a", "na", "--"]
+df = pd.read_csv("AcademicPerformance.csv", na_values=missing_values)
+
+# View data
+print(df)
+
+# Check missing values
+print(df['math score'])
+print(df['math score'].isnull())
+
+print(df['reading score'])
+print(df['reading score'].isnull())
+
+# Convert reading score to numeric
+df['reading score'] = pd.to_numeric(df['reading score'], errors='coerce')
+print(df['reading score'])
+print(df['reading score'].isnull())
+
+# IQR calculation (outlier detection)
+dataset = [11,41,20,3,101,55,68,97,99,6]
+dataset = sorted(dataset)
+
+quantile1, quantile3 = np.percentile(dataset, [25,75])
+iqr_value = quantile3 - quantile1
+
+lower_bound_value = quantile1 - (1.5 * iqr_value)
+upper_bound_value = quantile3 + (1.5 * iqr_value)
+
+print(lower_bound_value, upper_bound_value)
+
+# Date handling
+from datetime import date
+
+df['age'] = date.today().year - df['Year_Birth']
+df['Year'] = pd.DatetimeIndex(df['Dt_Admission']).year
+df['E_L'] = date.today().year - df['Year']
+
+# Clean fees column
+df['Fees$'] = df['College_Fees'].str.replace(',', '').str.replace('$', '', regex=False).astype(float)
+df['Fees_M$'] = df['Fees$'].apply(lambda x: round(x / 1000000))
+
+# Final output
+print(df.head())
