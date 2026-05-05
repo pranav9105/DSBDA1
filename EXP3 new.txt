@@ -1,0 +1,25 @@
+EXP 3rd new
+
+
+
+import pandas as pd
+import numpy as np
+
+data = {
+    "Marks": [85, 78, 92, 60, 55, 88, 76, 95, 70, 82]
+}
+
+
+df= pd.DataFrame(data)
+
+
+df
+
+df["Marks"].mean()
+df["Marks"].mode()
+df["Marks"].median()
+df["Marks"].var()
+df["Marks"].std()
+df["Marks"].max()-df["Marks"].min()
+df.describe()
+f["Marks"].kurt()
